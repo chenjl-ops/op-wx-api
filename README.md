@@ -43,6 +43,6 @@ docker push harbor.url/op-wx-api:v1
 ```
 ## docker run
 ```
-docker run -d --name op-wx-api --network host --restart on-failure -e RUNTIME_ENV=test -e RUNTIME_APP_NAME=op-wx-api -e RUNTIME_CONFIG_URL=http://10.2.0.167 harbor-public.123go.club/public-test/go-sso-api:v4
+docker run -d --name op-wx-api --network host --restart on-failure -e RUNTIME_ENV=test -e RUNTIME_APP_NAME=op-wx-api -e RUNTIME_CONFIG_URL=http://10.2.0.167 harbor.url/op-wx-api:v1
 
 ```

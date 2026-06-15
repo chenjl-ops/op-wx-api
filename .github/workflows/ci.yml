@@ -16,6 +16,8 @@ jobs:
   docker:
     runs-on: ubuntu-latest
 
+    environment: HARBOR
+
     permissions:
       contents: read
 
@@ -30,8 +32,12 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.HARBOR_USERNAME }} # ‘github-ci’
-          password: ${{ secrets.HARBOR_PASSWORD }} # ‘Psj7OAy8MTdusMobdsVQe25nVkdPO6id’
+          username: ${{ secrets.HARBOR_USERNAME }}
+          password: ${{ secrets.HARBOR_PASSWORD }}
+
+      - name: Get timestamp
+        id: time
+        run: echo "timestamp=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
 
       - name: Extract metadata
         id: meta
@@ -40,7 +46,7 @@ jobs:
           images: |
             ${{ env.REGISTRY }}/${{ env.PROJECT }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=sha,prefix=,format=short,suffix=_{{date 'YYYYMMDDHHmmss'}}
+            type=sha,prefix=,format=short,suffix=_${{ steps.time.outputs.timestamp }}
             type=raw,value=latest
 
       - name: Build And Push

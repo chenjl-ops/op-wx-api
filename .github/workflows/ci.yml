@@ -1,0 +1,53 @@
+name: Build And Push
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+env:
+  REGISTRY: harbor-public.123go.club:9443
+  PROJECT: test
+  IMAGE_NAME: op-wx-api
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login Harbor
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.HARBOR_USERNAME }} # ‘github-ci’
+          password: ${{ secrets.HARBOR_PASSWORD }} # ‘Psj7OAy8MTdusMobdsVQe25nVkdPO6id’
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ env.REGISTRY }}/${{ env.PROJECT }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha,prefix=,format=short,suffix=_{{date 'YYYYMMDDHHmmss'}}
+            type=raw,value=latest
+
+      - name: Build And Push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

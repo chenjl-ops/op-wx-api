@@ -2,10 +2,11 @@ package weichat
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/gin-gonic/gin/binding"
 	"net/http"
 	"op-wx-api/internal/pkg/response"
+
+	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 )
 
 func CheckWxCallBack(c *gin.Context) {

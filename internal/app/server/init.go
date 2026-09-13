@@ -1,21 +1,23 @@
 package server
 
 import (
-	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/gin"
-	log "github.com/sirupsen/logrus"
+	"fmt"
 	"op-wx-api/internal/app/middleware/header"
 	"op-wx-api/internal/app/middleware/logger"
 	"op-wx-api/internal/app/weichat"
 	"op-wx-api/internal/pkg/conf"
 	"time"
+
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 )
 
 // 初始化 config
 func initConfig() {
 	var err error
 	err = conf.NacosReadRemoteConfig()
-	//fmt.Println("init conf: ", conf.NacosConfig)
+	fmt.Println("init conf: ", conf.NacosConfig)
 	if nil != err {
 		log.Fatal(err)
 	}

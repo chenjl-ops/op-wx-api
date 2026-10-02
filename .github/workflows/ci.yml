@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  REGISTRY: harbor-public.123go.club:9443
+  REGISTRY: docker-image.123go.club
   PROJECT: test
   IMAGE_NAME: op-wx-api
 
@@ -31,7 +31,7 @@ jobs:
       - name: Login Harbor
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ${{ vars.REGISTRY }}
           username: ${{ secrets.HARBOR_USERNAME }}
           password: ${{ secrets.HARBOR_PASSWORD }}
 
@@ -44,7 +44,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ${{ env.REGISTRY }}/${{ env.PROJECT }}/${{ env.IMAGE_NAME }}
+            ${{ vars.REGISTRY }}/${{ env.PROJECT }}/${{ env.IMAGE_NAME }}
           tags: |
             type=sha,prefix=,format=short,suffix=_${{ steps.time.outputs.timestamp }}
             type=raw,value=latest

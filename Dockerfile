@@ -1,5 +1,5 @@
 # Build stage
-FROM golang:1.22.4 AS builder
+FROM golang:1.27.1 AS builder
 #ENV GOPROXY=https://proxy.golang.com.cn
 
 WORKDIR /app

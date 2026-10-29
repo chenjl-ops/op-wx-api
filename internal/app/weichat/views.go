@@ -40,9 +40,10 @@ func WxCallBackMain(c *gin.Context) {
 				c.XML(http.StatusOK, nil)
 			} else {
 				g := GeminiApi{
-					Url:    conf.NacosConfig.GeminiUrl,
-					ApiKey: conf.NacosConfig.GeminiToken,
-					Prompt: data.Content,
+					Url:       conf.NacosConfig.GeminiUrl,
+					ApiKey:    conf.NacosConfig.GeminiToken,
+					Prompt:    data.Content,
+					ModelName: conf.NacosConfig.GeminiModelName,
 				}
 
 				geminiResponse, err := g.getGemini()

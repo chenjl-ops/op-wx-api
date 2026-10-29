@@ -9,4 +9,5 @@ type Specification struct {
 	GeminiUrl             string `envconfig:"GEMINI_URL" mapstructure:"gemini_url" json:"gemini_url"`
 	GeminiToken           string `envconfig:"GEMINI_TOKEN" mapstructure:"gemini_token" json:"gemini_token"`
 	GeminiDefaultResponse string `envconfig:"GEMINI_DEFAULT_RESPONSE" mapstructure:"gemini_default_response" json:"gemini_default_response"`
+	GeminiModelName       string `envconfig:"GEMINI_MODEL_NAME" mapstructure:"gemini_model_name" json:"gemini_model_name"`
 }

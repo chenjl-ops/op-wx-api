@@ -5,25 +5,26 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	log "github.com/sirupsen/logrus"
 	"net/http"
 	conf2 "op-wx-api/internal/pkg/conf"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 )
 
-type server struct {
+type Server struct {
 	Config *conf2.Specification
 	App    *gin.Engine
 	//Validate *validator.Validate
 }
 
-func NewServer() (*server, error) {
+func NewServer() (*Server, error) {
 	//gin.ForceConsoleColor()
-	return &server{
+	return &Server{
 		Config: conf2.NacosConfig,
 		App:    gin.New(),
 	}, nil
@@ -64,13 +65,13 @@ func StartServer() error {
 }
 
 // Run 启动服务
-func (s *server) Run() error {
+func (s *Server) Run() error {
 	port := fmt.Sprintf(":%d", cmp.Or(s.Config.ServerRunPort, 8080))
 	return s.App.Run(port)
 }
 
 // GracefulRun 优雅启动服务
-func (s *server) GracefulRun() error {
+func (s *Server) GracefulRun() error {
 	port := fmt.Sprintf(":%d", cmp.Or(s.Config.ServerRunPort, 8080))
 
 	srv := &http.Server{

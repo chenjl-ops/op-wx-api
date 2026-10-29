@@ -3,6 +3,7 @@ package weichat
 import (
 	"fmt"
 	"net/http"
+	"op-wx-api/internal/pkg/conf"
 	"op-wx-api/internal/pkg/response"
 
 	"github.com/gin-gonic/gin"
@@ -38,6 +39,18 @@ func WxCallBackMain(c *gin.Context) {
 				fmt.Println("WX Message data error: ", err)
 				c.XML(http.StatusOK, nil)
 			} else {
+				g := GeminiApi{
+					Url:    conf.NacosConfig.GeminiUrl,
+					ApiKey: conf.NacosConfig.GeminiToken,
+					Prompt: data.Content,
+				}
+
+				geminiResponse, err := g.getGemini()
+				if err != nil {
+					data.Content = conf.NacosConfig.GeminiDefaultResponse
+				} else {
+					data.Content = geminiResponse
+				}
 				c.XML(http.StatusOK, wxMessageHandler(&data))
 			}
 		case "image":
